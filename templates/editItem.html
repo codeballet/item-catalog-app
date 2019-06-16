@@ -1,0 +1,54 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+<div class="row">
+	<div class="col-md-11 offset-md-1">
+		<h1>Edit {{ item.item_name }} (<i>{{ category.category_name }}</i>)</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6 offset-md-1">
+		<form action="{{ url_for('editItem', category_name = category.category_name, item_name = item.item_name, item_id = item.item_id) }}" method = "post">
+
+			<div class="form-group">
+				<label for="item_name">Name:</label>
+				<input type ="text" class="form-control" name="item_name" placeholder="{{ item.item_name }}">
+			</div>
+
+			<div class="form-group">
+				<label for="item_description">Description:</label>
+				<textarea class="form-control" rows="5" name="item_description">{{ item.item_description }}</textarea>
+			</div>
+
+
+			<div class="form-group">
+				<label for="item_price">Price:</label>
+				<div class="input-group mb-3">
+					<input type="text" class="form-control" name="item_price" placeholder="{{ item.item_price }}" aria-label="Username" aria-describedby="basic-addon1">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="category_id">Choose Category:</label>
+				<select class="custom-select" name='category_id'>
+					<option selected value="{{ category.category_id }}">{{ category.category_name }}</option>
+					{% for category in categories %}
+					<option value="{{ category.category_id }}">{{ category.category_name }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			
+			<a href="{{ url_for('showItem', category_name = category.category_name , item_name = item.item_name, item_id = item.item_id) }}" class='btn btn-outline-secondary' role='button'>
+				Cancel
+			</a>
+
+			<button type="submit" class="btn btn-outline-success">
+				Edit
+			</button>
+		</form>
+	</div>
+</div>
+{% endblock %}
+

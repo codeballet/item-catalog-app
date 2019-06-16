@@ -1,0 +1,47 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+<div class="row">
+    <div class="col-12">
+        <div class = 'flash'>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}          
+                <ul>
+                    {% for message in messages %}
+                    <li> <strong> {{ message }} </strong> </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+
+    <div class="col-md-11 offset-md-1">
+        <h1>{{ item.item_name }}</h1>
+        <p>In category
+            <i>
+                <a href = "{{ url_for('showCategory', category_name = category.category_name, category_id = category.category_id) }}">
+                    {{ category.category_name }}
+                </a>
+            </i>, added by <i>{{ category.user.user_name }}</i>
+        </p>
+        <p>Price: {{ item.item_price }}</p>
+        <h3>Description:</h3>
+        <p>{{ item.item_description }}</p>
+
+        {% if loggedIn and creator %}
+        <a href="{{ url_for('editItem', category_name = category.category_name , item_name = item.item_name, item_id = item.item_id) }}" class='btn btn-outline-secondary' role='button'>
+            Edit
+        </a>
+
+        <a href="{{ url_for('deleteItem', category_name = category.category_name, item_name = item.item_name, item_id = item.item_id) }}" class='btn btn-outline-danger' role='button'>
+            Delete
+        </a>
+        {% endif %}
+    </div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+<div class="row">
+	<div class="col-md-11 offset-md-1">
+		<h1>Create a new Category</h1>
+	</div>
+</div>
+<div class="row">
+	
+	<div class="col-md-6 offset-md-1">
+		<form action="{{ url_for('addCategory') }}" method = "post">
+
+			<div class="form-group">
+				<label for="category_name">Name:</label>
+				<input type ="text" class="form-control" name="category_name">
+			</div>
+			
+			<a href="{{ url_for('catalog') }}" class='btn btn-outline-secondary' role='button'>
+				Cancel
+			</a>
+
+			<button type='submit' class='btn btn-outline-success'>
+				Create
+			</button>
+		</form>
+	</div>
+</div>
+{% endblock %}

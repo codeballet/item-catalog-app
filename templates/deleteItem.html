@@ -1,0 +1,24 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+<div class="row">
+	<div class="col-md-11 offset-md-1">
+        <h1>Delete item "{{ item.item_name }}" from category "{{ category.category_name }}"?</h1>
+	</div>
+</div>
+
+<div class='row'>
+    <div class='col-md-11 offset-md-1'>
+        <form action="{{ url_for('deleteItem', category_name = category.category_name, item_name = item.item_name, item_id = item.item_id) }}" method='post'>
+            <a href="{{ url_for('showCategory', category_name = category.category_name, category_id = category.category_id) }}" class='btn btn-outline-secondary' role='button'>
+                Cancel
+            </a>
+            <button type="submit" class="btn btn-outline-danger">
+                Delete
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

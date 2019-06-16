@@ -1,0 +1,11 @@
+<nav class="navbar navbar-light bg-light">
+	<a class="navbar-brand" href="{{ url_for('catalog') }}">Catalog</a>
+
+	<span id="navLoginLink" class="navbar-text">
+		{% if 'user_name' not in session %}		
+		<a href="{{ url_for('showLogin') }}">Login</a>
+		{% else %}
+		<a href="{{ url_for('oauthDisconnect') }}">Log out</a>
+		{% endif %}
+	</span>
+</nav>
