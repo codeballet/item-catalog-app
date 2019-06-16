@@ -1,5 +1,7 @@
 # Item catalog
 
+IMPORTANT: The below information is currently not correct. Please check in a while for an update.
+
 The *Item Catalog* is a full-stack web app with a HTML interface and an API. The web app allows for loggin in as a registered user. Once logged in, the user can add, edit, and delete categories, as well as items for each category. Non-logged in users can still browse and access all items and categories, but they cannot edit, delete, or add new categories or items. 
 
 ## Installation and configuration of linux virtual machine
