@@ -3,7 +3,9 @@ from flask import redirect, url_for, jsonify, flash, abort, g
 from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
-from models import Category, User, Item, Base
+
+from app import app
+from app.models import Category, User, Item, Base
 
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError

@@ -11,6 +11,8 @@ from itsdangerous import (TimedJSONWebSignatureSerializer as
                           BadSignature,
                           SignatureExpired)
 
+from app import app
+
 
 Base = declarative_base()
 
