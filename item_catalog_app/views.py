@@ -17,6 +17,8 @@ import requests
 import json
 import random
 import string
+import sys
+import os
 
 
 auth = HTTPBasicAuth()
@@ -28,7 +30,10 @@ session = Session()
 
 
 # Load client_id from google oauth client file
-with open('/vagrant/item_catalog_project/client_secrets.json', 'r') as f:
+file_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(file_dir)
+client_secrets_path = os.path.join(parent_dir, 'client_secrets.json')
+with open(client_secrets_path, 'r') as f:
     CLIENT_ID = json.loads(f.read())['web']['client_id']
 
 # Load Flask session secret from file
@@ -59,6 +64,7 @@ def verify_password(username_or_token, password):
 # Collect oauth user info and generate app token
 @app.route('/oauth/<provider>', methods=['POST'])
 def login(provider):
+    print('Inside login view!')
     # Exchange one-time client code for oauth access token
     if provider == 'google':
         # check for 'X-Requested-With' header to prevent CSRF attacks
@@ -78,7 +84,7 @@ def login(provider):
         try:
             print('starting oauth flow')
             oauth_flow = flow_from_clientsecrets(
-                'client_secrets.json', scope='')
+                client_secrets_path, scope='')
             oauth_flow.redirect_uri = 'postmessage'
             credentials = oauth_flow.step2_exchange(auth_code)
             print('finished oauth flow')
@@ -161,7 +167,7 @@ def login(provider):
         output += '-webkit-border-radius: 150px;-moz-border-radius: 150px;">'
         output += '<h2>Temporary API Token:</h2>'
         output += '<p>'
-        output += token
+        output += token.decode('utf-8')
         output += '</p>'
         flash("you are now logged in as %s" % login_session['user_name'])
         print("Done logging in!")
