@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 
 from item_catalog_app import app
-from item_catalog_app.models import Category, User, Item, Base
+from item_catalog_app.models import Category, UserAccount, Item, Base
 
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
@@ -49,13 +49,20 @@ with open('vagrant/item_catalog_project/session_secrets.json', 'r') as f:
 @auth.verify_password
 def verify_password(username_or_token, password):
     # Check for token
-    user_id = User.verify_auth_token(username_or_token)
+    print('username_or_token: ', username_or_token)
+    print('password: ', password)
+    print('Checking for token or password')
+    user_id = UserAccount.verify_auth_token(username_or_token)
     if user_id:
-        user = session.query(User).filter_by(user_id=user_id).one()
+        print('Found user_id')
+        user = session.query(UserAccount).filter_by(user_id=user_id).one()
     else:
-        user = session.query(User).filter_by(
+        print('Checking username and password')
+        user = session.query(UserAccount).filter_by(
             user_name=username_or_token).first()
+        print('user: ', user)
         if not user or not user.verify_password(password):
+            print('found no user')
             return False
     g.user = user
     return True
@@ -167,7 +174,7 @@ def login(provider):
         output += '-webkit-border-radius: 150px;-moz-border-radius: 150px;">'
         output += '<h2>Temporary API Token:</h2>'
         output += '<p>'
-        output += token.decode('utf-8')
+        output += '{}'.format(token)
         output += '</p>'
         flash("you are now logged in as %s" % login_session['user_name'])
         print("Done logging in!")
@@ -222,24 +229,24 @@ def gdisconnect():
 
 # User Helper Functions
 def createUser(login_session):
-    newUser = User(user_name=login_session['user_name'],
+    newUser = UserAccount(user_name=login_session['user_name'],
                    user_email=login_session['user_email'],
                    user_picture=login_session['user_picture'])
     session.add(newUser)
     session.commit()
-    user = session.query(User).filter_by(
+    user = session.query(UserAccount).filter_by(
         user_email=login_session['user_email']).one()
     return user.user_id
 
 
 def getUserInfo(user_id):
-    user = session.query(User).filter_by(user_id=user_id).one()
+    user = session.query(UserAccount).filter_by(user_id=user_id).one()
     return user
 
 
 def getUserID(email):
     try:
-        user = session.query(User).filter_by(user_email=email).one()
+        user = session.query(UserAccount).filter_by(user_email=email).one()
         return user.user_id
     except NoResultFound:
         return None
@@ -455,7 +462,7 @@ def editItem(category_name, item_name, item_id):
     item = session.query(Item).filter_by(item_id=item_id).one()
     category = session.query(Category).filter_by(
         category_id=item.category_id).one()
-    categories = session.query(Category).filter_by(user_id = category.user.user_id).order_by(
+    categories = session.query(Category).filter_by(user_id = category.user_account.user_id).order_by(
         Category.category_name).all()
     # Check for creator of category
     creator = False
@@ -540,11 +547,11 @@ def new_user():
     if user_name is None or password is None or user_email is None:
         return jsonify({"error": "Missing name, email, or password arguments"})
 
-    if (session.query(User).filter_by(
+    if (session.query(UserAccount).filter_by(
             user_email=user_email).first() is not None):
         return jsonify({"message": "user email already exists"})
 
-    user = User(user_name=user_name, user_email=user_email)
+    user = UserAccount(user_name=user_name, user_email=user_email)
     user.hash_password(password)
     session.add(user)
     session.commit()
@@ -820,7 +827,7 @@ def deleteItemAPI(item_id):
 
 def getAllUsersAPI():
     try:
-        users = session.query(User).all()
+        users = session.query(UserAccount).all()
         if users:
             return jsonify(users=[i.serialize for i in users])
         else:

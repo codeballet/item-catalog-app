@@ -23,8 +23,8 @@ secret_key = ''.join(
     for x in range(32))
 
 
-class User(Base):
-    __tablename__ = 'user'
+class UserAccount(Base):
+    __tablename__ = 'user_account'
 
     user_id = Column(Integer, primary_key=True)
     user_name = Column(String(250), nullable=False)
@@ -74,8 +74,8 @@ class Category(Base):
 
     category_id = Column(Integer, primary_key=True)
     category_name = Column(String(80), nullable=False)
-    user_id = Column(Integer, ForeignKey('user.user_id'), nullable=False)
-    user = relationship('User', backref=backref(
+    user_id = Column(Integer, ForeignKey('user_account.user_id'), nullable=False)
+    user_account = relationship('UserAccount', backref=backref(
         'categories', cascade='all, delete-orphan'))
 
     @property

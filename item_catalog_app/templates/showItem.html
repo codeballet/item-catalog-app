@@ -24,7 +24,7 @@
                 <a href = "{{ url_for('showCategory', category_name = category.category_name, category_id = category.category_id) }}">
                     {{ category.category_name }}
                 </a>
-            </i>, added by <i>{{ category.user.user_name }}</i>
+            </i>, added by <i>{{ category.user_account.user_name }}</i>
         </p>
         <p>Price: {{ item.item_price }}</p>
         <h3>Description:</h3>
