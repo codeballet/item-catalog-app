@@ -4,8 +4,8 @@ from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 
-from app import app
-from app.models import Category, User, Item, Base
+from item_catalog_app import app
+from item_catalog_app.models import Category, User, Item, Base
 
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
@@ -21,19 +21,18 @@ import string
 
 auth = HTTPBasicAuth()
 
-app = Flask(__name__)
-engine = create_engine('sqlite:///catalog.db')
+engine = create_engine(app.config['DATABASE_URL'])
 Base.metadata.bind = engine
 Session = sessionmaker(bind=engine)
 session = Session()
 
 
 # Load client_id from google oauth client file
-with open('client_secrets.json', 'r') as f:
+with open('/vagrant/item_catalog_project/client_secrets.json', 'r') as f:
     CLIENT_ID = json.loads(f.read())['web']['client_id']
 
 # Load Flask session secret from file
-with open('session_secrets.json', 'r') as f:
+with open('vagrant/item_catalog_project/session_secrets.json', 'r') as f:
     SESSION_SECRET = json.loads(f.read())['secret']
 
 

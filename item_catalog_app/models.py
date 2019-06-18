@@ -11,7 +11,7 @@ from itsdangerous import (TimedJSONWebSignatureSerializer as
                           BadSignature,
                           SignatureExpired)
 
-from app import app
+from item_catalog_app import app
 
 
 Base = declarative_base()
@@ -20,7 +20,7 @@ Base = declarative_base()
 # Generate a secret key to create and verify tokens
 secret_key = ''.join(
     random.choice(string.ascii_uppercase + string.digits)
-    for x in xrange(32))
+    for x in range(32))
 
 
 class User(Base):
@@ -113,7 +113,6 @@ class Item(Base):
         }
 
 
-engine = create_engine('sqlite:///catalog.db')
-
+engine = create_engine(app.config['DATABASE_URL'])
 
 Base.metadata.create_all(engine)
