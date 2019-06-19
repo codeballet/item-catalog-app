@@ -37,8 +37,8 @@ with open(client_secrets_path, 'r') as f:
     CLIENT_ID = json.loads(f.read())['web']['client_id']
 
 # Load Flask session secret from file
-with open('vagrant/item_catalog_project/session_secrets.json', 'r') as f:
-    SESSION_SECRET = json.loads(f.read())['secret']
+# with open('vagrant/item_catalog_project/session_secrets.json', 'r') as f:
+#     SESSION_SECRET = json.loads(f.read())['secret']
 
 
 ####################################
