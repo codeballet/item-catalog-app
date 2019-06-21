@@ -69,9 +69,9 @@
                     // Handle or verify the server response if necessary.
                     if (result) {
                         $('#result').html('Login Successful!</br>'+ result + '</br>')
-                        // setTimeout(function() {
-                        //     window.location.href = '/catalog';
-                        // }, 4000);
+                        setTimeout(function() {
+                            window.location.href = '/catalog';
+                        }, 3000);
                     } else if (authResult['error']) {
                         console.log('There was an error: ' + authResult['error']);
                     } else {

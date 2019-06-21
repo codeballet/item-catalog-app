@@ -174,7 +174,7 @@ def login(provider):
         output += '-webkit-border-radius: 150px;-moz-border-radius: 150px;">'
         output += '<h2>Temporary API Token:</h2>'
         output += '<p>'
-        output += '{}'.format(token)
+        output += token.decode('ascii')
         output += '</p>'
         flash("you are now logged in as %s" % login_session['user_name'])
         print("Done logging in!")
@@ -274,14 +274,20 @@ def showLogin():
 def catalog():
     categories = session.query(Category).order_by(Category.category_name).all()
     items = session.query(Item).order_by(desc(Item.item_date)).limit(10)
+    token = "None"
 
     # Check for logged in user and creator of categories
     loggedIn = False
     if 'user_name' in login_session:
         loggedIn = True
+        # Generate token for API
+        user_id = getUserID(login_session['user_email'])
+        user = getUserInfo(user_id)
+        token = user.generate_auth_token(600)
+        token = token.decode('ascii')
 
     return render_template(
-        'catalog.html', loggedIn=loggedIn, categories=categories, items=items)
+        'catalog.html', loggedIn=loggedIn, categories=categories, items=items, token=token)
 
 
 @app.route('/catalog/category/new', methods=['GET', 'POST'])
