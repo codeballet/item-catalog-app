@@ -172,10 +172,7 @@ def login(provider):
         output += ' " style = "'
         output += 'width: 300px; height: 300px; border-radius: 150px; '
         output += '-webkit-border-radius: 150px;-moz-border-radius: 150px;">'
-        output += '<h2>Temporary API Token:</h2>'
-        output += '<p>'
-        output += token.decode('ascii')
-        output += '</p>'
+        output += '<h2>redirecting...</h2>'
         flash("you are now logged in as %s" % login_session['user_name'])
         print("Done logging in!")
         return output
@@ -403,7 +400,10 @@ def addItem(category_name, category_id):
     if 'user_name' not in login_session:
         flash('You need to log in to add a new item')
         return redirect(url_for('catalog'))
-    categories = session.query(Category).order_by(asc(Category.category_name))
+    # categories = session.query(Category).order_by(asc(Category.category_name))
+    categories = session.query(Category).filter_by(
+        user_id=category.user_account.user_id).order_by(
+        Category.category_name).all()
     category = session.query(Category).filter_by(
         category_id=category_id).one()
     # Check for creator of category
@@ -468,7 +468,8 @@ def editItem(category_name, item_name, item_id):
     item = session.query(Item).filter_by(item_id=item_id).one()
     category = session.query(Category).filter_by(
         category_id=item.category_id).one()
-    categories = session.query(Category).filter_by(user_id = category.user_account.user_id).order_by(
+    categories = session.query(Category).filter_by(
+        user_id=category.user_account.user_id).order_by(
         Category.category_name).all()
     # Check for creator of category
     creator = False
