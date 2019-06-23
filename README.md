@@ -6,8 +6,10 @@ As of 23 June 2019, an instance of the app is running at [spaceengineering.biz](
 The *Item Catalog* can be accessed via a HTML interface and an API. The app allows for loggin in as a registered user. Once logged in, the user can add, edit, and delete categories, as well as items for each category. Non-logged in users can still browse and access all items and categories, but they cannot edit, delete, or add new categories or items.
 
 ## Submission notes for Udacity Grader
-IP address: 52.69.98.254
+Please note that in order to be able to run an encrypted site with HTTPS, I have opened port 443 in the `ufw` firewall, in spite of that port not being specified in the Udacity rubric.
 
+To log on with ssh:
+IP address: 52.69.98.254
 Port: 2200
 
 Summary of software installed:
