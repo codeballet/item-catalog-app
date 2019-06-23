@@ -3,7 +3,42 @@ The *Item Catalog* is a database driven web app that stores items organized in d
 
 As of 23 June 2019, an instance of the app is running at [spaceengineering.biz](https://spaceengineering.biz/catalog). That domain is using an SLL/TLC encryption by Let's Encrypt for HTTPS access.
 
-The *Item Catalog* can be accessed via a HTML interface and an API. The app allows for loggin in as a registered user. Once logged in, the user can add, edit, and delete categories, as well as items for each category. Non-logged in users can still browse and access all items and categories, but they cannot edit, delete, or add new categories or items. 
+The *Item Catalog* can be accessed via a HTML interface and an API. The app allows for loggin in as a registered user. Once logged in, the user can add, edit, and delete categories, as well as items for each category. Non-logged in users can still browse and access all items and categories, but they cannot edit, delete, or add new categories or items.
+
+## Submission notes for Udacity Grader
+IP address: 52.69.98.254
+
+Port: 2200
+
+Summary of software installed:
+* Unbuntu 18.04
+* Apache
+* PostgreSQL
+* psycopg2
+* mod-wsgi
+* Git
+* Python virtual environment
+* Flask
+* Let's Encrypt certificate with `certbot`
+
+Configuration of sensitive keys and secrets:
+* All sensitive keys and codes are stored as environment variables, as defined in the `config.py` file
+* OAuth keys and secrets are stored in the `client_secrets.json` file.
+
+Third party resources used:
+* github.com
+* postgresql.org
+* digitalocean.com
+* "The Flask Mega-Tutorial" at blog.miguelgrinberg.com
+* "Creating your first Flask Application" at hackersandslackers.com
+* medium.com
+* realpython.com
+* w3schools.com
+* stackoverflow.com
+* letsencrypt.org
+* certbot.eff.org
+
+The Grader can access the `grader` account with an SSH key that is provided in to "Notes to Reviewer" field in the submission process.
 
 ## Installation and configuration
 The github repository is designed to be directly cloned into a server running Ubuntu, Apache, and PostgreSQL. All file paths in the code are relative, so hardly any configuration of the actual code is necessary.
